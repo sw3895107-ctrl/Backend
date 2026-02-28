@@ -5,15 +5,19 @@ const stories = require('./stories');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Allow frontend to fetch
 app.use(cors());
 
-// API route to get all stories
+// Get all stories or filter by category
 app.get('/stories', (req, res) => {
+  const { cat } = req.query;
+  if (cat) {
+    const filtered = stories.filter(s => s.cat.toLowerCase() === cat.toLowerCase());
+    return res.json(filtered);
+  }
   res.json(stories);
 });
 
-// Optional: fetch single story by ID
+// Get single story by ID
 app.get('/stories/:id', (req, res) => {
   const story = stories.find(s => s.id === parseInt(req.params.id));
   if (!story) return res.status(404).json({ message: 'Story not found' });
