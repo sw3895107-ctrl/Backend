@@ -3,7 +3,123 @@ const stories = [
   } 
   },
 // P0300 - MISFIRE (8 stories)
-  } {{
+  } {
+id:1,
+code:'P0420',
+title:'$50 Cat Clean vs $1200 Dealer Replacement',
+vehicle:'2004 Honda Accord 2.4L 156k miles',
+author:'Mike',
+img:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&q=80',
+problem:'Check engine light came on with P0420 catalyst efficiency code. Failed state inspection. Local Honda dealer quoted $1,200 for new catalytic converter plus $400 labor. Total: $1,600.',
+rabbitHole:[
+{title:'O2 Sensor Spacer/Cheater',desc:'$15 Amazon "fouler". Light stayed off for 50 miles, came right back. Complete waste of time and money.'},
+{title:'Cataclean Fuel Additive',desc:'$25 bottle, followed instructions exactly. Zero change in O2 sensor readings. Might work for borderline cases, not this one.'}
+],
+fix:[
+{title:'Remove the Catalytic Converter',desc:'4 bolts, 2 O2 sensors. Penetrating oil overnight, impact wrench. 45 minutes total.'},
+{title:'Soak in Dishwasher Detergent',desc:'2 cups Cascade powder in 5-gallon bucket of hot water. Submerged cat completely, soaked 12 hours.'},
+{title:'Bake at 500°F for 2 Hours',desc:'Used old shop oven (don't use your kitchen oven!). Burns off remaining carbon deposits.'},
+{title:'Reinstall with New Gaskets',desc:'New donut gasket ($8) and hardware. Torqued to spec. Cleared codes with scanner.'}
+],
+cost:20,
+dealerCost:1600,
+saved:1580,
+success:47,
+cat:'p0420',
+verdict:'3 weeks later: Still no check engine light. Passed state inspection yesterday. O2 sensors showing normal switching frequency. This fix won't last forever (probably 1-2 years on a 20-year-old car with 156k miles). But that's perfect. Would do again in a heartbeat.',
+proTip:'Always check your O2 sensor data first! If rear O2 is stuck lean or rich, this won't help. Mine was switching slowly but normally - that's the key indicator this fix will work.'
+},
+{
+id:2,
+code:'P0420',
+title:'Rear O2 Sensor Only - Not the Cat',
+vehicle:'2010 Subaru Outback 2.5L 180k miles',
+author:'SubieShop',
+img:'https://images.unsplash.com/photo-1532581140115-ca3d01490791?w=400&q=80',
+problem:'P0420 code, dealer said catalytic converter needed replacement immediately. Quote: $1,185 parts + labor.',
+rabbitHole:[
+{title:'Considered Aftermarket Cat',desc:'Was going to buy $300 universal cat and have shop weld it. Still $600+ total.'}
+],
+fix:[
+{title:'Check O2 Sensor Data',desc:'Scanned with Torque Pro. Rear O2 sensor was lazy, not switching properly. Front O2 was fine.'},
+{title:'Replace Rear O2 Only',desc:'Bought Bosch O2 sensor for $85. 22mm wrench, 10 minutes to swap. Cleared codes.'}
+],
+cost:85,
+dealerCost:1185,
+saved:1100,
+success:89,
+cat:'p0420',
+verdict:'6 months later, still no codes. Cat was fine, just the sensor telling the ECU it was bad. Always check sensor data before replacing expensive cats!',
+proTip:'Use a scanner that shows O2 sensor voltage graphs. Rear O2 should wave between 0.1V and 0.9V. If it's flatlined, replace the sensor first.'
+},
+{
+id:3,
+code:'P0420',
+title:'Exhaust Leak Causing False P0420',
+vehicle:'2007 Toyota Camry 2.4L 142k miles',
+author:'ToyotaTom',
+img:'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=400&q=80',
+problem:'P0420 code, rough idle, exhaust smell in cabin. Dealer wanted $1,400 for new catalytic converter.',
+rabbitHole:[
+{title:'Replaced Both O2 Sensors',desc:'$180 in sensors, no change. Still had P0420 and rough idle.'}
+],
+fix:[
+{title:'Visual Inspection',desc:'Found crack in flex pipe before catalytic converter. Exhaust leak was letting air in, throwing off O2 readings.'},
+{title:'Weld the Crack',desc:'Local muffler shop welded crack for $80. New gasket $40. Total $120.'}
+],
+cost:120,
+dealerCost:1400,
+saved:1280,
+success:34,
+cat:'p0420',
+verdict:'Code gone immediately after weld. Idle smooth. No more exhaust smell. Always inspect exhaust for leaks before condemning the cat!',
+proTip:'Use a smoke machine or listen for leaks with engine running. Exhaust leaks before the cat will cause false P0420 codes.'
+},
+{
+id:4,
+code:'P0420',
+title:'Oil Consumption Killing the Cat',
+vehicle:'2008 Honda Civic 1.8L 210k miles',
+author:'HondaMike',
+img:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=80',
+problem:'P0420 every 3 months, burning 1 quart oil every 1,000 miles. Dealer quote: $1,200 cat + investigate oil consumption.',
+rabbitHole:[
+{title:'Just Cleaned Cat',desc:'Worked for 2 months, then code came back. Oil was coating the cat again.'}
+],
+fix:[
+{title:'Fix Oil Consumption First',desc:'Replaced PCV valve ($12), added oil catch can ($45), switched to high mileage oil.'},
+{title:'Then Clean Cat',desc:'Once oil consumption slowed, did detergent soak and bake on cat.'}
+],
+cost:95,
+dealerCost:1200,
+saved:1105,
+success:23,
+cat:'p0420',
+verdict:'3 months later, no codes, oil consumption down to 1qt/3000mi. Cat stays clean when oil stays in engine!',
+proTip:'If you have P0420 AND oil consumption, fix the oil problem first or you'll be replacing cats forever.'
+},
+{
+id:5,
+code:'P0420',
+title:'Spark Plug Fouling Causing Cat Failure',
+vehicle:'2006 Nissan Altima 2.5L 165k miles',
+author:'NissanTech',
+img:'https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=400&q=80',
+problem:'P0420, rough idle, terrible gas mileage, smell of raw fuel.',
+rabbitHole:[
+{title:'Replaced Cat',desc:'New cat failed in 3 months. Didn't fix root cause.'}
+],
+fix:[
+{title:'Check Spark Plugs',desc:'Plugs were fouled with carbon, causing misfires. Raw fuel was entering cat.'},
+{title:'New Plugs + Cat Clean',desc:'NGK plugs ($45) + cat cleaning ($35) + upstream O2 ($85).'}
+],
+cost:165,
+dealerCost:1300,
+saved:1135,
+success:56,
+cat:'p0420',
+verdict:'Fixed the misfire, cat recovered. 8 months later, still passing emissions. Fix the engine first, then the cat!',
+proTip:'Misfires kill cats. If you have P0300 and P0420 together, fix the misfire first.'
 id:6,
 code:'P0420',
 title:'Cheap Cat from RockAuto Works',
