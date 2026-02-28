@@ -1,6 +1,236 @@
 // All your story objects go here
 const stories = [
-  {
+  } 
+  },
+// P0300 - MISFIRE (8 stories)
+  } {{
+id:6,
+code:'P0420',
+title:'Cheap Cat from RockAuto Works',
+vehicle:'2005 Ford F-150 5.4L 195k miles',
+author:'FordGuy',
+img:'https://images.unsplash.com/photo-1605893474270-1d0d9f8e8c72?w=400&q=80',
+problem:'Both banks P0420/P0430, dealer wanted $2,400 for both cats.',
+rabbitHole:[
+{title:'Tried Used Cat',desc:'Junkyard cat lasted 2 weeks. Waste of $80.'}
+],
+fix:[
+{title:'Buy Eastern Catalytic',desc:'RockAuto Eastern Catalytic direct fit cats $280 each.'},
+{title:'Replace Both',desc:'$560 for both cats, $120 labor at muffler shop. Total $680.'}
+],
+cost:680,
+dealerCost:2400,
+saved:1720,
+success:67,
+cat:'p0420',
+verdict:'1 year later, still passing emissions. RockAuto cats work if you buy the right brand.',
+proTip:'Eastern and Walker cats work fine. Avoid "universal" weld-in cats.'
+},
+{
+id:7,
+code:'P0420',
+title:'Muffler Delete Causing P0420',
+vehicle:'2012 Honda Civic Si 2.4L 98k miles',
+author:'VTEC_Kid',
+img:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&q=80',
+problem:'P0420 after aftermarket exhaust install',
+rabbitHole:[
+{title:'Tuned ECU',desc:'Still threw codes after tune.'}
+],
+fix:[
+{title:'Reinstall Resonator',desc:'Added resonator back to system.'},
+{title:'O2 Defouler',desc:'Spark plug non-fouler on rear O2 with 1/2" hole drilled.'}
+],
+cost:60,
+dealerCost:900,
+saved:840,
+success:28,
+cat:'p0420',
+verdict:'Passed inspection. Not permanent fix but works for now.',
+proTip:'Exhaust changes affect O2 readings. May need tune or defoulers.'
+},
+{
+id:8,
+code:'P0420',
+title:'Coolant Leak Poisoning Cat',
+vehicle:'2009 Toyota Corolla 1.8L 155k miles',
+author:'ToyotaTech',
+img:'https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=400&q=80',
+problem:'P0420, losing coolant, white smoke. Shop quoted $2,800 head gasket + cat.',
+rabbitHole:[
+{title:'Just Replaced Cat',desc:'New one failed in 1 month. Coolant was killing it.'}
+],
+fix:[
+{title:'Head Gasket Sealer',desc:'BlueDevil sealer $45. Temporary fix.'},
+{title:'New Cat After',desc:'Once leak stopped, new cat $450.'}
+],
+cost:495,
+dealerCost:2800,
+saved:2305,
+success:19,
+cat:'p0420',
+verdict:'6 months later, still working. Sealer held, cat stays dry.',
+proTip:'Fix coolant leaks BEFORE replacing cat or you'll be doing it twice.'
+id:9,
+code:'P0420',
+title:'Bad Gas Destroyed My Cat',
+vehicle:'2015 Chevy Silverado 5.3L 87k miles',
+author:'TruckLife',
+img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+problem:'P0420 after filling up at sketchy gas station. Rough running, sulfur smell. Dealer wanted $1,800 for new cat.',
+rabbitHole:[
+{title:'Replaced O2 Sensors',desc:'$240 wasted. Problem was contaminated cat, not sensors.'}
+],
+fix:[
+{title:'Drain Bad Fuel',desc:'Siphoned out 3/4 tank of suspected bad gas.'},
+{title:'Cataclean + High Octane',desc:'One bottle Cataclean, filled with Shell 93 octane.'},
+{title:'Italian Tune-Up',desc:'Drove hard for 100 miles. High RPMs burned off deposits.'}
+],
+cost:85,
+dealerCost:1800,
+saved:1715,
+success:41,
+cat:'p0420',
+verdict:'Code cleared after 150 miles. 4 months later, still good. Bad gas happens - try cleaning before replacing!',
+proTip:'If P0420 appears right after fill-up, suspect fuel quality. Try premium gas and cleaner first.'
+},
+{
+id:10,
+code:'P0420',
+title:'Welded Heat Shield Fixed False Code',
+vehicle:'2003 Lexus ES300 3.0L 178k miles',
+author:'LexusTech',
+img:'https://images.unsplash.com/photo-1503376763036-066120622c74?w=400&q=80',
+problem:'P0420 intermittent, worse in hot weather. Dealer said cat failing $1,600.',
+rabbitHole:[
+{title:'Replaced Rear O2',desc:'No change. Code came back within 50 miles.'}
+],
+fix:[
+{title:'Inspect Heat Shields',desc:'Found loose heat shield on cat causing overheating.'},
+{title:'Reweld Shields',desc:'Muffler shop welded loose shields $60.'}
+],
+cost:60,
+dealerCost:1600,
+saved:1540,
+success:15,
+cat:'p0420',
+verdict:'6 months, no codes. Heat shield was causing cat to overheat and throw false efficiency code.',
+proTip:'Loose heat shields cause cats to overheat. Check them before replacing expensive components.'
+},
+id:11,
+code:'P0300',
+title:'$8 Coil Pack vs $600 Dealer Diagnosis',
+vehicle:'2005 Honda Accord 2.4L 140k miles',
+author:'HondaMike',
+img:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=80',
+problem:'Random misfire P0300, shaking at idle, flashing CEL. Shop wanted $600 to diagnose and replace all coils.',
+rabbitHole:[
+{title:'Replaced All Spark Plugs',desc:'$60, no change. Still misfiring.'}
+],
+fix:[
+{title:'Scan for Specific Cylinder',desc:'Torque Pro showed P0303 (cylinder 3).'},
+{title:'Swap Coil Packs',desc:'Swapped coil 3 with coil 1. Misfire moved to P0301.'},
+{title:'Replace Bad Coil',desc:'$8 coil pack from RockAuto. 10 minute swap.'}
+],
+cost:8,
+dealerCost:600,
+saved:592,
+success:92,
+cat:'p0300',
+verdict:'Fixed immediately. Been 8 months, runs perfect. Always swap test before buying full sets!',
+proTip:'Swap coils between cylinders to isolate the bad one. Saves buying parts you don't need.'
+},
+{
+id:12,
+code:'P0300',
+title:'Valve Cover Gasket Causing Misfire',
+vehicle:'2008 BMW 328i 3.0L 125k miles',
+author:'BimmerFix',
+img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+problem:'P0300, rough idle, oil smell. Indie shop quoted $1,200 for ignition coils and valve cover.',
+rabbitHole:[
+{title:'Replaced All Coils',desc:'$280, no change. Still misfiring.'}
+],
+fix:[
+{title:'Check Spark Plug Wells',desc:'Found oil in cylinder 2 and 4 spark plug wells from leaking gasket.'},
+{title:'New Valve Cover Gasket',desc:'$45 gasket set, 2 hours labor. Cleaned oil from plugs.'}
+],
+cost:45,
+dealerCost:1200,
+saved:1155,
+success:78,
+cat:'p0300',
+verdict:'Misfire gone immediately. Oil was shorting spark plugs. BMWs are notorious for this.',
+proTip:'Check for oil in spark plug wells before replacing coils. Common on BMW, Nissan, Honda.'
+},
+  {id:13,
+code:'P0300',
+title:'Dirty Injector Cleaner Fixed It',
+vehicle:'2010 Ford F-150 5.4L 98k miles',
+author:'FordTech',
+img:'https://images.unsplash.com/photo-1605893474270-1d0d9f8e8c72?w=400&q=80',
+problem:'Intermittent P0300, worse when cold. Dealer wanted $800 for new injectors.',
+rabbitHole:[
+{title:'Replaced Spark Plugs',desc:'Motorcraft plugs $80, no change.'}
+],
+fix:[
+{title:'Sea Foam Treatment',desc:'1 can in tank, 1 can in brake booster vacuum line.'},
+{title:'Drive It Hard',desc:'Drove 200 miles aggressively to clean injectors.'}
+],
+cost:25,
+dealerCost:800,
+saved:775,
+success:63,
+cat:'p0300',
+verdict:'Misfire cleared after 100 miles. 6 months later, still smooth. Try cleaner before new injectors!',
+proTip:'Ford 5.4L injectors gum up. Sea Foam or Techron often fixes intermittent misfires.'
+},
+{
+id:14,
+code:'P0300',
+title:'Vacuum Leak - $3 Hose',
+vehicle:'2004 Toyota Camry 2.4L 165k miles',
+author:'ToyotaTom',
+img:'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=400&q=80',
+problem:'P0300, high idle, hissing noise. Shop quoted $400 for "intake manifold gasket".',
+rabbitHole:[
+{title:'Smoke Test',desc:'Was going to pay $100 for smoke test.'}
+],
+fix:[
+{title:'Visual Inspection',desc:'Found cracked vacuum hose behind intake manifold.'},
+{title:'Replace Hose',desc:'$3 hose from parts store, 5 minutes with pliers.'}
+],
+cost:3,
+dealerCost:400,
+saved:397,
+success:88,
+cat:'p0300',
+verdict:'Idle dropped to normal immediately. Misfire gone. $3 fix!',
+proTip:'Listen for hissing with engine running. Vacuum leaks cause lean misfires.'
+},
+{
+id:15,
+code:'P0300',
+title:'MAF Sensor Cleaning Fixed Misfire',
+vehicle:'2006 Nissan Altima 2.5L 134k miles',
+author:'NissanTech',
+img:'https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=400&q=80',
+problem:'P0300, rough idle, stalling at stops. Shop said bad MAF $380.',
+rabbitHole:[
+{title:'Replaced Plugs and Coils',desc:'$200, no improvement.'}
+],
+fix:[
+{title:'Remove MAF Sensor',desc:'2 screws, 5 minutes.'},
+{title:'Clean with MAF Cleaner',desc:'$8 CRC MAF cleaner. Sprayed wire gently, let dry.'}
+],
+cost:8,
+dealerCost:380,
+saved:372,
+success:71,
+cat:'p0300',
+verdict:'Runs like new. Never use brake cleaner on MAF - always use proper MAF cleaner.',
+proTip:'Clean MAF before replacing. Takes 10 minutes and $8 vs $400 sensor.'
+}
     id: 16,
     code: 'P0300',
     title: 'Corroded Engine Ground Fix',
