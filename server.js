@@ -120,7 +120,7 @@ app.get("/api/fixes", async (req, res) => {
           { symptoms: { $regex: q, $options: "i" } }
         ]
       }
-    : { status: "approved" };
+    : {};
 
   const fixes = await Fix.find(filter).sort({ createdAt: -1 });
   res.json(fixes);
