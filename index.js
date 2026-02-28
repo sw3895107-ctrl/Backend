@@ -7,14 +7,23 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-// Get all stories or filter by category
+// Get all stories, filter by category or search term
 app.get('/stories', (req, res) => {
-  const { cat } = req.query;
+  const { cat, search } = req.query;
+  let results = stories;
+
   if (cat) {
-    const filtered = stories.filter(s => s.cat.toLowerCase() === cat.toLowerCase());
-    return res.json(filtered);
+    results = results.filter(s => s.cat.toLowerCase() === cat.toLowerCase());
   }
-  res.json(stories);
+
+  if (search) {
+    const term = search.toLowerCase();
+    results = results.filter(
+      s => s.title.toLowerCase().includes(term) || s.code.toLowerCase().includes(term)
+    );
+  }
+
+  res.json(results);
 });
 
 // Get single story by ID
