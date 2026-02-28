@@ -649,5 +649,152 @@ vehicle:'2005 Honda Accord 3.0L 145k miles',
 author:'HondaMike',
 img:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=80',
 problem:'Hard shifting, jerking, shop quoted $3,800 for transmission rebuild.',
+rabbitHole:[Lucas, no change.'}
+],
+fix:[
+{title:'Drain and Fill',desc:'3x drain/fill with Honda DW-1 fluid.'},
+{title:'Total Cost',desc:'$90 in fluid, did it myself over 2 weeks.'}
+],
+cost:90,
+dealerCost:3800,
+saved:3710,
+success:94,
+cat:'trans',
+verdict:'Shifts like new. Honda transmissions are sensitive to fluid condition.',
+proTip:'Try fluid change before rebuild. Use ONLY Honda fluid, not universal ATF.'
+},
+{
+id:43,
+code:'TRANS',
+title:'Shift Solenoid Replacement',
+vehicle:'2004 Ford F-150 5.4L 178k miles',
+author:'FordTech',
+img:'https://images.unsplash.com/photo-1605893474270-1d0d9f8e8c72?w=400&q=80',
+problem:'Stuck in 2nd gear, limp mode. Shop quoted $2,200 for transmission.',
 rabbitHole:[
-{title:'Transmission Additive',desc:'$25 Lucas,
+{title:'Code Scan',desc:'P0750 shift solenoid A malfunction.'}
+],
+fix:[
+{title:'Drop Pan',desc:'Removed transmission pan.'},
+{title:'Replace Solenoid',desc:'$45 solenoid, $30 filter/gasket.'}
+],
+cost:75,
+dealerCost:2200,
+saved:2125,
+success:76,
+cat:'trans',
+verdict:'Back to normal shifting. Solenoid was stuck, not transmission failure.',
+proTip:'Solenoid codes often mean bad solenoid, not bad transmission. Check first!'
+},
+{
+id:44,
+code:'TRANS',
+title:'Range Sensor Adjustment',
+vehicle:'2006 Toyota Camry 2.4L 134k miles',
+author:'ToyotaTom',
+img:'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=400&q=80',
+problem:'No reverse, hard to start. Shop quoted $1,800 for transmission.',
+rabbitHole:[
+{title:'Transmission Additive',desc:'$25 Sensor',desc:'Loosened 2 bolts, aligned properly.'},
+{title:'Test All Gears',desc:'Reverse works, starts normally now.'}
+],
+cost:0,
+dealerCost:1800,
+saved:1800,
+success:52,
+cat:'trans',
+verdict:'10 minute adjustment. Sensor thought it was in drive when in park.',
+proTip:'No reverse often means range sensor adjustment, not transmission failure.'
+},
+{
+id:45,
+code:'TRANS',
+title:'Torque Converter Lockup',
+vehicle:'2003 Chevy Silverado 5.3L 198k miles',
+author:'ChevyMike',
+img:'https://images.unsplash.com/photo-1532581140115-ca3d01490791?w=400&q=80',
+problem:'Stalling at stops, shuddering. Shop quoted $1,200 for torque converter.',
+rabbitHole:[
+{title:'New Torque Converter',desc:'$400 part, didn't fix stalling.'}
+],
+fix:[
+{title:'Check TCC Solenoid',desc:'Found sticking TCC solenoid.'},
+{title:'Replace Solenoid',desc:'$35 solenoid in side cover.'}
+],
+cost:35,
+dealerCost:1200,
+saved:1165,
+success:61,
+cat:'trans',
+verdict:'No more stalling. TCC was staying locked up at idle.',
+proTip:'Stalling at stops often means TCC solenoid, not torque converter.'
+},
+// SUSPENSION/STEERING (5 stories)
+{
+id:46,
+code:'SUSP',
+title:'End Links Fixed Clunking',
+vehicle:'2004 Honda Accord 2.4L 167k miles',
+author:'HondaMike',
+img:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=80',
+problem:'Clunking over bumps, shop quoted $800 for struts.',
+rabbitHole:[
+{title:'Replaced Struts',desc:'$400, still clunking. Wasn't struts.'}
+],
+fix:[
+{title:'Check End Links',desc:'Found loose sway bar end links.'},
+{title:'Replace End Links',desc:'$30 pair, 30 minutes with sockets.'}
+],
+cost:30,
+dealerCost:800,saved:770,
+success:88,
+cat:'susp',
+verdict:'Clunking gone. Always check end links before replacing struts!',
+proTip:'End links are $30 and clunk when bad. Struts are $400+. Check cheap stuff first.'
+},
+{
+id:47,
+code:'SUSP',
+title:'Power Steering Hose Leak',
+vehicle:'2005 Toyota Camry 3.0L 156k miles',
+author:'ToyotaTom',
+img:'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=400&q=80',
+problem:'Whining, fluid leak, hard steering. Shop quoted $650 for rack and pinion.',
+rabbitHole:[
+{title:'Added Stop Leak',desc:'$15, no change.'}
+],
+fix:[
+{title:'Find Leak Source',desc:'Leak at pressure hose fitting, not rack.'},
+{title:'Replace Hose',desc:'$45 hose, 1 hour to replace.'}
+],
+cost:45,
+dealerCost:650,
+saved:605,
+success:74,
+cat:'susp',
+verdict:'No more leak, steering normal. Hose was leaking at crimp fitting.',
+proTip:'Find the actual leak before assuming rack is bad. Often it's just a hose.'
+},
+{
+id:48,
+code:'SUSP',
+title:'Ball Joint Press Tool',
+vehicle:'2004 Ford F-150 5.4L 189k miles',
+author:'FordTech',img:'https://images.unsplash.com/photo-1605893474270-1d0d9f8e8c72?w=400&q=80',
+problem:'Loose ball joints, shop quoted $800 for control arms.',
+rabbitHole:[
+{title:'Control Arms',desc:'$400, but ball joints are pressed in.'}
+],
+fix:[
+{title:'Buy Ball Joint Press',desc:'$60 loaner tool from AutoZone.'},
+{title:'Press in New Joints',desc:'$80 for MOOG ball joints.'}
+],
+cost:140,
+dealerCost:800,
+saved:660,
+success:57,
+cat:'susp',
+verdict:'Tight steering again. Press tool made it easy, saved hundreds.',
+proTip:'Rent ball joint press. Don't replace whole control arm if just joint is bad.'
+},
+{
