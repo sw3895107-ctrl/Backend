@@ -1,27 +1,29 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+dotenv.config();
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
-/* ======================
+/* =========================
    DATABASE CONNECTION
-====================== */
+========================= */
 
-import mongoose from "mongoose";
+const mongoURI = "mongodb+srv://garageadmin:Admin1212@cluster0.pfib1ha.mongodb.net/cluster0?retryWrites=true&w=majority";
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(mongoURI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.error("Mongo Error:", err));
 
-/* ======================
+/* =========================
    MODELS
-====================== */
+========================= */
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -31,119 +33,122 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const fixSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  category: String,
-  status: { type: String, default: "pending" },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+  code: String,
+  vehicle: String,
+  symptoms: String,
+  solution: String,
+  costSaved: Number,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  status: { type: String, default: "pending" }
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
 const Fix = mongoose.model("Fix", fixSchema);
 
-/* ======================
-   MIDDLEWARE
-====================== */
+/* =========================
+   AUTH MIDDLEWARE
+========================= */
 
-const protect = async (req, res, next) => {
+const protect = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "No token" });
+
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) return res.status(401).json({ message: "Not authorized" });
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secretkey");
+    req.user = decoded;
     next();
-  } catch (err) {
-    res.status(401).json({ message: "Token failed" });
+  } catch {
+    res.status(401).json({ message: "Invalid token" });
   }
 };
 
 const adminOnly = (req, res, next) => {
-  if (req.user.role !== "admin") {
+  if (req.user.role !== "admin")
     return res.status(403).json({ message: "Admin only" });
-  }
   next();
 };
 
-/* ======================
+/* =========================
    AUTH ROUTES
-====================== */
+========================= */
 
-// Register (First user becomes admin)
 app.post("/api/auth/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
-
     const hash = await bcrypt.hash(password, 10);
-
-    const userCount = await User.countDocuments();
 
     const user = await User.create({
       username,
       email,
-      password: hash,
-      role: userCount === 0 ? "admin" : "user"
+      password: hash
     });
 
-    res.json({
-      message: "User created",
-      role: user.role
-    });
-
+    res.json({ message: "User created" });
   } catch (err) {
     res.status(400).json({ error: "Email may already exist" });
   }
 });
 
-// Login
 app.post("/api/auth/login", async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ message: "Invalid credentials" });
+  if (!user) return res.status(400).json({ message: "User not found" });
 
   const match = await bcrypt.compare(password, user.password);
-  if (!match) return res.status(400).json({ message: "Invalid credentials" });
+  if (!match) return res.status(400).json({ message: "Invalid password" });
 
   const token = jwt.sign(
-    { id: user._id },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET || "secretkey"
   );
 
-  res.json({
-    token,
-    role: user.role
-  });
+  res.json({ token });
 });
 
-/* ======================
+/* =========================
    FIX ROUTES
-====================== */
+========================= */
 
-// Submit Fix (Logged in users)
-app.post("/api/fixes", protect, async (req, res) => {
-  const { title, description, category } = req.body;
-
-  const fix = await Fix.create({
-    title,
-    description,
-    category,
-    user: req.user._id
-  });
-
-  res.json(fix);
-});
-
-// Public Approved Fixes
+// Get approved fixes (search optional)
 app.get("/api/fixes", async (req, res) => {
-  const fixes = await Fix.find({ status: "approved" })
-    .sort({ createdAt: -1 });
+  const q = req.query.q;
 
+  const filter = q
+    ? {
+        status: "approved",
+        $or: [
+          { code: { $regex: q, $options: "i" } },
+          { symptoms: { $regex: q, $options: "i" } }
+        ]
+      }
+    : { status: "approved" };
+
+  const fixes = await Fix.find(filter).sort({ createdAt: -1 });
   res.json(fixes);
 });
 
-// Admin Approve / Reject
+// Submit fix (must be logged in)
+app.post("/api/fixes", protect, async (req, res) => {
+  const fix = await Fix.create({
+    ...req.body,
+    author: req.user.id
+  });
+
+  res.json({ message: "Fix submitted for approval" });
+});
+
+/* =========================
+   ADMIN ROUTES
+========================= */
+
+// View pending fixes
+app.get("/api/admin/pending", protect, adminOnly, async (req, res) => {
+  const fixes = await Fix.find({ status: "pending" });
+  res.json(fixes);
+});
+
+// Approve or reject fix
 app.patch("/api/admin/:id", protect, adminOnly, async (req, res) => {
   const fix = await Fix.findByIdAndUpdate(
     req.params.id,
@@ -154,10 +159,17 @@ app.patch("/api/admin/:id", protect, adminOnly, async (req, res) => {
   res.json(fix);
 });
 
-/* ======================
-   SERVER
-====================== */
+/* =========================
+   ROOT CHECK
+========================= */
+
+app.get("/", (req, res) => {
+  res.send("Garage Wisdom API Running");
+});
+
+/* =========================
+   START SERVER
+========================= */
 
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log("Server running on port " + PORT));
