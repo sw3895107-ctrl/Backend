@@ -21,5 +21,5 @@ const { cat, search } = req.query;
   }
 
   res.json(results);
-});
+}
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
