@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const stories = require('./stories');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
