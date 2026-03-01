@@ -1,6 +1,5 @@
 // All your story objects go here
 const stories = [
-  } 
   },
 // P0300 - MISFIRE (8 stories)
   } {
