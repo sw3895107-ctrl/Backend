@@ -1,36 +1,29 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import dotenv from "dotenv";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import express from "express"
+import mongoose from "mongoose"
+import cors from "cors"
+import dotenv from "dotenv"
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
 
-dotenv.config();
+dotenv.config()
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+const app = express()
+app.use(cors())
+app.use(express.json())
 
-/* =========================
-   DATABASE CONNECTION
-========================= */
+/* DATABASE */
 
-const mongoURI = "mongodb+srv://garageadmin:Admin1212@cluster0.pfib1ha.mongodb.net/cluster0?retryWrites=true&w=majority";
-
-mongoose.connect(mongoURI)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.error("Mongo Error:", err));
+  .catch(err => console.error(err))
 
-/* =========================
-   MODELS
-========================= */
+/* MODELS */
 
 const userSchema = new mongoose.Schema({
-  username: String,
+  name: String,
   email: { type: String, unique: true },
-  password: String,
-  role: { type: String, default: "user" }
-}, { timestamps: true });
+  password: String
+}, { timestamps: true })
 
 const fixSchema = new mongoose.Schema({
   code: String,
@@ -38,138 +31,63 @@ const fixSchema = new mongoose.Schema({
   symptoms: String,
   solution: String,
   costSaved: Number,
-  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  status: { type: String, default: "pending" }
-}, { timestamps: true });
+  approved: { type: Boolean, default: true }
+}, { timestamps: true })
 
-const User = mongoose.model("User", userSchema);
-const Fix = mongoose.model("Fix", fixSchema);
+const User = mongoose.model("User", userSchema)
+const Fix = mongoose.model("Fix", fixSchema)
 
-/* =========================
-   AUTH MIDDLEWARE
-========================= */
+/* AUTH */
 
 const protect = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "No token" });
+  const token = req.headers.authorization?.split(" ")[1]
+  if (!token) return res.status(401).json({ message: "No token" })
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secretkey");
-    req.user = decoded;
-    next();
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    req.user = decoded
+    next()
   } catch {
-    res.status(401).json({ message: "Invalid token" });
+    res.status(401).json({ message: "Invalid token" })
   }
-};
+}
 
-const adminOnly = (req, res, next) => {
-  if (req.user.role !== "admin")
-    return res.status(403).json({ message: "Admin only" });
-  next();
-};
-
-/* =========================
-   AUTH ROUTES
-========================= */
-
-app.post("/api/auth/register", async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
-    const hash = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
-      username,
-      email,
-      password: hash
-    });
-
-    res.json({ message: "User created" });
-  } catch (err) {
-    res.status(400).json({ error: "Email may already exist" });
-  }
-});
-
-app.post("/api/auth/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ message: "User not found" });
-
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) return res.status(400).json({ message: "Invalid password" });
-
-  const token = jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET || "secretkey"
-  );
-
-  res.json({ token });
-});
-
-/* =========================
-   FIX ROUTES
-========================= */
-
-// Get approved fixes (search optional)
-app.get("/api/fixes", async (req, res) => {
-  const q = req.query.q;
-
-  const filter = q
-    ? {
-        status: "approved",
-        $or: [
-          { code: { $regex: q, $options: "i" } },
-          { symptoms: { $regex: q, $options: "i" } }
-        ]
-      }
-    : { status: "approved" };
-
-  const fixes = await Fix.find(filter).sort({ createdAt: -1 });
-  res.json(fixes);
-});
-
-// Submit fix (must be logged in)
-app.post("/api/fixes", protect, async (req, res) => {
-  const fix = await Fix.create({
-    ...req.body,
-    author: req.user.id
-  });
-
-  res.json({ message: "Fix submitted for approval" });
-});
-
-/* =========================
-   ADMIN ROUTES
-========================= */
-
-// View pending fixes
-app.get("/api/admin/pending", protect, adminOnly, async (req, res) => {
-  const fixes = await Fix.find({ status: "pending" });
-  res.json(fixes);
-});
-
-// Approve or reject fix
-app.patch("/api/admin/:id", protect, adminOnly, async (req, res) => {
-  const fix = await Fix.findByIdAndUpdate(
-    req.params.id,
-    { status: req.body.status },
-    { new: true }
-  );
-
-  res.json(fix);
-});
-
-/* =========================
-   ROOT CHECK
-========================= */
+/* ROUTES */
 
 app.get("/", (req, res) => {
-  res.send("Garage Wisdom API Running");
-});
+  res.send("Garage Wisdom API Running")
+})
 
-/* =========================
-   START SERVER
-========================= */
+app.post("/api/register", async (req, res) => {
+  const { name, email, password } = req.body
+  const hash = await bcrypt.hash(password, 10)
+  const user = await User.create({ name, email, password: hash })
+  res.json(user)
+})
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Server running on port " + PORT));
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body
+  const user = await User.findOne({ email })
+  if (!user) return res.status(400).json({ message: "Invalid credentials" })
+
+  const match = await bcrypt.compare(password, user.password)
+  if (!match) return res.status(400).json({ message: "Invalid credentials" })
+
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
+  res.json({ token })
+})
+
+app.get("/api/fixes", async (req, res) => {
+  const fixes = await Fix.find({ approved: true })
+  res.json(fixes)
+})
+
+app.post("/api/fixes", protect, async (req, res) => {
+  const fix = await Fix.create(req.body)
+  res.json(fix)
+})
+
+/* START */
+
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => console.log("Server running on port " + PORT))
